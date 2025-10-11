@@ -1,3 +1,4 @@
+# R
 # History files
 .Rhistory
 .Rapp.history
@@ -47,3 +48,53 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# PYTHON
+# Byte-compiled / optimized / compiled files
+__pycache__/
+*.pyc
+*.pyd
+*.pyo
+*.egg-info/
+.pytest_cache/
+
+# Virtual environment
+venv/
+env/
+.venv/
+*/venv/
+*/env/
+*/.venv/
+
+# Distribution / packaging
+.Python
+build/
+dist/
+*.egg
+*.whl
+*.zip
+*.tar.gz
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.bak
+*.swo
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Logs and databases
+*.log
+*.sqlite3
+*.db
+
+# Jupyter Notebook files
+.ipynb_checkpoints/
+
+# Miscellaneous
+.env
+.flaskenv
+instance/
