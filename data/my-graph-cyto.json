@@ -1,0 +1,67 @@
+{
+  "elements": {
+    "nodes": [
+      {
+        "data": {
+          "id": "6a21e13b-0942-4a5b-9c75-7498e1c19043",
+          "label": "Graph Commons",
+          "typeId": "8efa8473-6666-4dd0-a10f-a166176d88c8",
+          "type": "Company"
+        }
+      },
+      {
+        "data": {
+          "id": "3812d8cd-3ec3-43a2-8004-dda1191e5d03",
+          "label": "Alice",
+          "typeId": "0581d173-17cc-4d9a-9e73-a54cee789062",
+          "type": "Person"
+        }
+      },
+      {
+        "data": {
+          "id": "b6a633e0-96fb-4ecd-a8de-eb98dbd5678c",
+          "label": "Claire",
+          "typeId": "0581d173-17cc-4d9a-9e73-a54cee789062",
+          "type": "Person"
+        }
+      },
+      {
+        "data": {
+          "id": "a03895d0-983a-43fc-8966-79667b0da19e",
+          "label": "Bob",
+          "typeId": "0581d173-17cc-4d9a-9e73-a54cee789062",
+          "type": "Person"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "data": {
+          "id": "5b5e2878-226a-441a-b471-47e7865000c0",
+          "source": "3812d8cd-3ec3-43a2-8004-dda1191e5d03",
+          "target": "6a21e13b-0942-4a5b-9c75-7498e1c19043",
+          "typeId": "e2f4587d-3d98-4a22-8772-96a2c4d3bb7c",
+          "type": "WORKS AT"
+        }
+      },
+      {
+        "data": {
+          "id": "bcc86fa9-862f-4ac7-97c8-b2a93ea2a0b9",
+          "source": "b6a633e0-96fb-4ecd-a8de-eb98dbd5678c",
+          "target": "a03895d0-983a-43fc-8966-79667b0da19e",
+          "typeId": "816eb277-7c2e-4e82-bec5-40315d8ce4b7",
+          "type": "FOLLOWS"
+        }
+      },
+      {
+        "data": {
+          "id": "6860791e-5264-47e4-abeb-78794972102a",
+          "source": "a03895d0-983a-43fc-8966-79667b0da19e",
+          "target": "3812d8cd-3ec3-43a2-8004-dda1191e5d03",
+          "typeId": "816eb277-7c2e-4e82-bec5-40315d8ce4b7",
+          "type": "FOLLOWS"
+        }
+      }
+    ]
+  }
+}

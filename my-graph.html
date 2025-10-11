@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Interactive Network Viewer</title>
+  <style>
+    html, body { height:100%; margin:0; padding:0; }
+    #cy { width:100%; height:100vh; display:block; }
+    /* small control panel */
+    #controls { position: absolute; top: 10px; left: 10px; z-index: 999; background: rgba(255,255,255,0.9); padding:8px; border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.15); font-family: sans-serif; }
+    #controls button { margin:2px; }
+  </style>
+  <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+</head>
+<body>
+  <div id="controls" aria-hidden="false">
+    <button id="fit">Fit</button>
+    <button id="reset">Reset View</button>
+    <button id="layout">Re-run layout</button>
+    <span id="info" style="margin-left:8px;font-size:12px;color:#333;"></span>
+  </div>
+  <div id="cy" role="application" aria-label="Network graph"></div>
+
+  <script>
+  const nodeTypeColors = {
+    "Company": "#73589a",
+    "Person": "#51e2f3",
+  };
+
+  const edgeTypeColors = {
+    "WORKS AT": "#7a2550",
+    "FOLLOWS": "#b97e34",
+  };
+
+  // Safely fetch the JSON file (relative path)
+  fetch('my-graph-cyto.json').then(r => r.json()).then(data => {
+    const elements = data.elements || {};
+
+    // Build Cytoscape style rules using the types/colors
+    const style = [
+      { selector: 'node', style: { 'label': 'data(label)', 'font-size': 12, 'text-valign': 'center', 'text-halign': 'center', 'color': '#222', 'text-outline-width': 0, 'width': 30, 'height': 30 } },
+      { selector: 'edge', style: { 'width': 2, 'line-color': '#bbb', 'curve-style': 'bezier' } }
+    ];
+
+    // Add specific node color styles based on node type name
+    Object.keys(nodeTypeColors).forEach(function(typeName) {
+      style.push({
+        selector: 'node[type = "' + typeName + '"]',
+        style: { 'background-color': nodeTypeColors[typeName] }
+      });
+    });
+
+    // Add specific edge color styles based on edge type name
+    Object.keys(edgeTypeColors).forEach(function(typeName) {
+      style.push({
+        selector: 'edge[type = "' + typeName + '"]',
+        style: { 'line-color': edgeTypeColors[typeName] }
+      });
+    });
+
+    // Initialize cytoscape
+    const cy = cytoscape({
+      container: document.getElementById('cy'),
+      elements: elements,
+      style: style,
+      layout: { name: 'cose', animate: true, gravity: 1, fit: true },
+      wheelSensitivity: 0.2
+    });
+
+    // Make edges undirected (no arrows) - ensured by style not showing arrows
+    // Interactions: show node info on click
+    cy.on('tap', 'node', function(evt) {
+      const node = evt.target;
+      const info = 'Node: ' + node.data('label') + (node.data('type') ? ' (' + node.data('type') + ')' : '');
+      document.getElementById('info').textContent = info;
+    });
+
+    cy.on('tap', function(e) {
+      if( e.target === cy ) { document.getElementById('info').textContent = ''; }
+    });
+
+    document.getElementById('fit').addEventListener('click', function() { cy.fit(); });
+    document.getElementById('reset').addEventListener('click', function() { cy.zoom(1); cy.center(); });
+    document.getElementById('layout').addEventListener('click', function() { cy.layout({ name: 'cose', animate: true }).run(); });
+
+  }).catch(err => { console.error('Failed loading graph JSON:', err); document.getElementById('info').textContent = 'Error loading graph data'; });
+  </script>
+</body>
+</html>
