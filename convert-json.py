@@ -42,12 +42,12 @@ for e in gc.get("edges", []):
     })
 
 out_json = {"elements": elements}
-out_json_path = "/mnt/data/my-graph-cyto.json"
+out_json_path = "/data/my-graph-cyto.json"
 with open(out_json_path, "w", encoding="utf-8") as f:
     json.dump(out_json, f, indent=2)
 
 # create html in smaller write
-out_html_path = "/mnt/data/my-graph.html"
+out_html_path = "my-graph.html"
 parts = []
 parts.append("<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width,initial-scale=1\" />\n  <title>Interactive Network Viewer</title>\n  <style>\n    html, body { height:100%; margin:0; padding:0; }\n    #cy { width:100%; height:100vh; display:block; }\n    /* small control panel */\n    #controls { position: absolute; top: 10px; left: 10px; z-index: 999; background: rgba(255,255,255,0.9); padding:8px; border-radius:6px; box-shadow:0 2px 6px rgba(0,0,0,0.15); font-family: sans-serif; }\n    #controls button { margin:2px; }\n  </style>\n  <script src=\"https://unpkg.com/cytoscape/dist/cytoscape.min.js\"></script>\n</head>\n<body>\n  <div id=\"controls\" aria-hidden=\"false\">\n    <button id=\"fit\">Fit</button>\n    <button id=\"reset\">Reset View</button>\n    <button id=\"layout\">Re-run layout</button>\n    <span id=\"info\" style=\"margin-left:8px;font-size:12px;color:#333;\"></span>\n  </div>\n  <div id=\"cy\" role=\"application\" aria-label=\"Network graph\"></div>\n\n  <script>\n")
 
