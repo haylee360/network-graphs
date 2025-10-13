@@ -24,8 +24,8 @@
   <script>
   // Default colors (will be overridden by postMessage)
   // Use let so we can replace these objects later
-  let nodeTypeColors = {'Person': '#51e2f3', 'Company': '#73589a'};
-  let edgeTypeColors = {'FOLLOWS': '#b97e34', 'WORKS AT': '#7a2550'};
+  let nodeTypeColors = {'Organization': '#D8E9D9', 'Tool': '#C5D8E5', 'Service': '#FAE4C6'};
+  let edgeTypeColors = {'WORKS WITH': '#b889a0ff', 'SHARED SERVICE': '#bcaad6ff'};
 
   // Message queue + ready flag so messages arriving early are handled
   let _cyReady = false;

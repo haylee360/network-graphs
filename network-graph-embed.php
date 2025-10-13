@@ -18,21 +18,23 @@ function nge_sanitize_color($c){
 
 function nge_shortcode_network_graph($atts){
     $a = shortcode_atts(array(
-        'person_color' => '#51e2f3',
-        'company_color' => '#73589a',
-        'follows_color' => '#b97e34',
-        'worksat_color' => '#7a2550',
-        'width' => '100%',
+        'org_color' => '#D8E9D9',
+        'tool_color' => '#C5D8E5',
+        'service_color' => '#FAE4C6'
+        'sharedservice_color' => '#bcaad6ff',
+        'workswith_color' => '#b889a0ff',
+        'width' => '80%',
         'height' => '600',
         'background_color' => '#ffffff',
         'path' => '/wp-content/uploads/network-graph/my-graph.html'
     ), $atts, 'network_graph');
 
     // sanitize colors
-    $a['person_color'] = nge_sanitize_color($a['person_color']) ?: '#51e2f3';
-    $a['company_color'] = nge_sanitize_color($a['company_color']) ?: '#73589a';
-    $a['follows_color'] = nge_sanitize_color($a['follows_color']) ?: '#b97e34';
-    $a['worksat_color'] = nge_sanitize_color($a['worksat_color']) ?: '#7a2550';
+    $a['org_color'] = nge_sanitize_color($a['org_color']) ?: '#D8E9D9';
+    $a['tool_color'] = nge_sanitize_color($a['tool_color']) ?: '#C5D8E5';
+    $a['service_color'] = nge_sanitize_color($a['service_color']) ?: '#FAE4C6';
+    $a['sharedservice_color'] = nge_sanitize_color($a['sharedservice_color']) ?: '#bcaad6ff';
+    $a['workswith_color'] = nge_sanitize_color($a['workswith_color']) ?: '#b889a0ff';
     $a['background_color'] = nge_sanitize_color($a['background_color']) ?: '#ffffff';
 
     // sanitize width/height (allow percentages or numbers)
@@ -43,8 +45,8 @@ function nge_shortcode_network_graph($atts){
 
     ob_start();
     ?>
-    <div class="network-embed-wrapper" style="max-width:100%;">
-      <iframe id="<?php echo esc_attr($iframe_id); ?>" src="<?php echo esc_url($a['path']); ?>" style="width:<?php echo $width; ?>; height:<?php echo intval($height); ?>px; border:0;" loading="lazy" title="Interactive network graph"></iframe>
+    <div class="network-embed-wrapper" style="max-width:100%; display:flex;">
+      <iframe id="<?php echo esc_attr($iframe_id); ?>" src="<?php echo esc_url($a['path']); ?>" style="width:<?php echo $width; ?>; height:<?php echo intval($height); ?>px; border:0; justify-content:center;" loading="lazy" title="Interactive network graph"></iframe>
     </div>
     <script type="text/javascript">
     (function(){
@@ -54,12 +56,13 @@ function nge_shortcode_network_graph($atts){
         var msg = {
           type: 'updateColors',
           nodeTypeColors: {
-            'Person': <?php echo json_encode($a['person_color']); ?>,
-            'Company': <?php echo json_encode($a['company_color']); ?>
+            'Organization': <?php echo json_encode($a['org_color']); ?>,
+            'Tool': <?php echo json_encode($a['tool_color']); ?>
+            'Service': <?php echo json_encode($a['service_color']); ?>
           },
           edgeTypeColors: {
-            'FOLLOWS': <?php echo json_encode($a['follows_color']); ?>,
-            'WORKS AT': <?php echo json_encode($a['worksat_color']); ?>
+            'SHARED SERVICE': <?php echo json_encode($a['sharedservice_color']); ?>,
+            'WORKS WITH': <?php echo json_encode($a['workswith_color']); ?>
           },
           backgroundColor: <?php echo json_encode($a['background_color']); ?>
         };
