@@ -1,0 +1,199 @@
+{
+  "name": "root",
+  "children": [
+    {
+      "name": "Housing",
+      "children": [
+        {
+          "name": "San Luis Obispo County",
+          "children": [
+            {
+              "name": "Community Action Partnership of San Luis Obispo County (CAPSLO)",
+              "value": 1
+            },
+            {
+              "name": "Housing Authority of the City of San Luis Obispo (HASLO)",
+              "value": 1
+            },
+            {
+              "name": "Transitions - Mental Health Association (TMHA)",
+              "value": 1
+            },
+            {
+              "name": "5Cities Homeless Coalition (5CHC)",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "name": "San Luis Obispo County, Ventura County",
+          "children": [
+            {
+              "name": "People\u2019s Self-Help Housing Corporation (PSHH)",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "name": "Ventura County",
+          "children": [
+            {
+              "name": "Area Housing Authority of Ventura (AHACV)",
+              "value": 1
+            },
+            {
+              "name": "Cabrillo Economic Development Corporation",
+              "value": 1
+            },
+            {
+              "name": "Many Mansions",
+              "value": 1
+            },
+            {
+              "name": "Housing Authority of the City of San Buenaventura (HACSB)",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "name": "Santa Barbara County",
+          "children": [
+            {
+              "name": "Habitat for Humanity of Southern Santa Barbara County (HFHSSBC)",
+              "value": 1
+            },
+            {
+              "name": "Santa Barbara Community Housing Corporation (SBCHC)",
+              "value": 1
+            },
+            {
+              "name": "Housing Trust Fund of Santa Barbara County",
+              "value": 1
+            },
+            {
+              "name": "2nd Story Associates",
+              "value": 1
+            },
+            {
+              "name": "New Beginnings Safe Parking Shelter and Rapid Rehousing Program",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Regional Advocacy & Organizing",
+      "children": [
+        {
+          "name": "Santa Barbara County, Ventura County",
+          "children": [
+            {
+              "name": "Central Coast Alliance United for a Sustainable Economy",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "name": "Central Coast",
+          "children": [
+            {
+              "name": "Central Coast Social Justice Academy",
+              "value": 1
+            },
+            {
+              "name": "Lideres Campesinas",
+              "value": 1
+            },
+            {
+              "name": "REACH (Regional Economic Action Coalition)",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "name": "Santa Barbara County",
+          "children": [
+            {
+              "name": "The Fund for SB",
+              "value": 1
+            },
+            {
+              "name": "Mixteco Indigenous Community Organizing Project",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "name": "Ventura County",
+          "children": [
+            {
+              "name": "Buen Vecino",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "name": "California",
+          "children": [
+            {
+              "name": "CalNonprofits",
+              "value": 1
+            },
+            {
+              "name": "Alliance for Justice",
+              "value": 1
+            },
+            {
+              "name": "Public Advocates",
+              "value": 1
+            },
+            {
+              "name": "Public Policy Institute of California (PPIC)",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Youth and Family",
+      "children": [
+        {
+          "name": "Santa Barbara County",
+          "children": [
+            {
+              "name": "Santa Barbara Chapter of the California Association of Marriage and Family Therapists (SBCAMFT)",
+              "value": 1
+            },
+            {
+              "name": "Attitude Harmony Achievement (AHA!)",
+              "value": 1
+            },
+            {
+              "name": "Alpha Lifespan Support Services",
+              "value": 1
+            },
+            {
+              "name": "Family Service Agency",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "name": "Central Coast",
+          "children": [
+            {
+              "name": "Access Central Coast: Youth Transition Program",
+              "value": 1
+            },
+            {
+              "name": "Tri-Counties Regional Center",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
