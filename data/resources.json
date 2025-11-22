@@ -8,19 +8,19 @@
           "name": "San Luis Obispo County",
           "children": [
             {
-              "name": "Community Action Partnership of San Luis Obispo County (CAPSLO)",
+              "name": "Community Action Partnership of San Luis Obispo County",
               "value": 1
             },
             {
-              "name": "Housing Authority of the City of San Luis Obispo (HASLO)",
+              "name": "Housing Authority of the City of San Luis Obispo",
               "value": 1
             },
             {
-              "name": "Transitions - Mental Health Association (TMHA)",
+              "name": "Transitions - Mental Health Association",
               "value": 1
             },
             {
-              "name": "5Cities Homeless Coalition (5CHC)",
+              "name": "5Cities Homeless Coalition",
               "value": 1
             }
           ]
@@ -29,7 +29,7 @@
           "name": "San Luis Obispo County, Ventura County",
           "children": [
             {
-              "name": "People\u2019s Self-Help Housing Corporation (PSHH)",
+              "name": "People\u2019s Self-Help Housing Corporation",
               "value": 1
             }
           ]
@@ -38,7 +38,7 @@
           "name": "Ventura County",
           "children": [
             {
-              "name": "Area Housing Authority of Ventura (AHACV)",
+              "name": "Area Housing Authority of Ventura",
               "value": 1
             },
             {
@@ -50,7 +50,7 @@
               "value": 1
             },
             {
-              "name": "Housing Authority of the City of San Buenaventura (HACSB)",
+              "name": "Housing Authority of the City of San Buenaventura",
               "value": 1
             }
           ]
@@ -59,11 +59,11 @@
           "name": "Santa Barbara County",
           "children": [
             {
-              "name": "Habitat for Humanity of Southern Santa Barbara County (HFHSSBC)",
+              "name": "Habitat for Humanity of Southern Santa Barbara County",
               "value": 1
             },
             {
-              "name": "Santa Barbara Community Housing Corporation (SBCHC)",
+              "name": "Santa Barbara Community Housing Corporation",
               "value": 1
             },
             {
@@ -106,7 +106,7 @@
               "value": 1
             },
             {
-              "name": "REACH (Regional Economic Action Coalition)",
+              "name": "REACH: Regional Economic Action Coalition",
               "value": 1
             }
           ]
@@ -149,7 +149,7 @@
               "value": 1
             },
             {
-              "name": "Public Policy Institute of California (PPIC)",
+              "name": "Public Policy Institute of California",
               "value": 1
             }
           ]
@@ -163,11 +163,11 @@
           "name": "Santa Barbara County",
           "children": [
             {
-              "name": "Santa Barbara Chapter of the California Association of Marriage and Family Therapists (SBCAMFT)",
+              "name": "Santa Barbara Chapter of the California Association of Marriage and Family Therapists",
               "value": 1
             },
             {
-              "name": "Attitude Harmony Achievement (AHA!)",
+              "name": "Attitude Harmony Achievement",
               "value": 1
             },
             {
@@ -189,6 +189,279 @@
             },
             {
               "name": "Tri-Counties Regional Center",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Legal Support",
+      "children": [
+        {
+          "name": "Central Coast",
+          "children": [
+            {
+              "name": "805 Undocufund",
+              "value": 1
+            },
+            {
+              "name": "California Rural Legal Assistance",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "name": "Ventura County",
+          "children": [
+            {
+              "name": "VC Defensa",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "name": "National",
+          "children": [
+            {
+              "name": "ACLU Immigrants' Rights",
+              "value": 1
+            },
+            {
+              "name": "Immigrant Legal Resources Know Your Rights Cards",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "name": "California",
+          "children": [
+            {
+              "name": "California Collaborative for Immigrant Justice",
+              "value": 1
+            },
+            {
+              "name": "National Immigration Law Center",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "name": "Santa Barbara County",
+          "children": [
+            {
+              "name": "Legal Aid Santa Barbara County",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Education",
+      "children": [
+        {
+          "name": "Santa Barbara County",
+          "children": [
+            {
+              "name": "Santa Barbara County Education Office",
+              "value": 1
+            },
+            {
+              "name": "Help Me Grow Santa Barbara County",
+              "value": 1
+            },
+            {
+              "name": "Children's Resource & Referral of Santa Barbara County",
+              "value": 1
+            },
+            {
+              "name": "Santa Barbara County 211",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "name": "California",
+          "children": [
+            {
+              "name": "CalKIDS",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Environment",
+      "children": [
+        {
+          "name": "California",
+          "children": [
+            {
+              "name": "CalEnviroScreen",
+              "value": 1
+            },
+            {
+              "name": "EJScreen",
+              "value": 1
+            },
+            {
+              "name": "CaliforniaLFire",
+              "value": 1
+            },
+            {
+              "name": "California Department of Water Resources",
+              "value": 1
+            },
+            {
+              "name": "Environmental Defense Center",
+              "value": 1
+            },
+            {
+              "name": "California Environmental Justice Coalition",
+              "value": 1
+            },
+            {
+              "name": "California League of Conservation Voters",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "name": "National",
+          "children": [
+            {
+              "name": "Climate and Economic Justice Screening Tool",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "name": "Central Coast",
+          "children": [
+            {
+              "name": "Central Coast Labor Impact Explorer",
+              "value": 1
+            },
+            {
+              "name": "Regional Wildfire Mitigation Program",
+              "value": 1
+            },
+            {
+              "name": "Central Coast Community Energy",
+              "value": 1
+            },
+            {
+              "name": "Climate First: Replacing Oil and Gas",
+              "value": 1
+            },
+            {
+              "name": "Los Padres ForestWatch",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "name": "Santa Barbara County",
+          "children": [
+            {
+              "name": "City of Santa Barbara Adaptation and Resilience Program",
+              "value": 1
+            },
+            {
+              "name": "Community Environmental Council",
+              "value": 1
+            },
+            {
+              "name": "Wishtoyo Chumash Foundation",
+              "value": 1
+            },
+            {
+              "name": "Santa Barbara Channelkeeper",
+              "value": 1
+            },
+            {
+              "name": "Land Trust for Santa Barbara County",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Nutrition",
+      "children": [
+        {
+          "name": "Santa Barbara County",
+          "children": [
+            {
+              "name": "Santa Barbara County Food Action Network",
+              "value": 1
+            },
+            {
+              "name": "Isla Vista Ethnobotany Project",
+              "value": 1
+            },
+            {
+              "name": "Somos Semillas Food Sovereignty Project",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "name": "Ventura County",
+          "children": [
+            {
+              "name": "Saticoy Food Hub",
+              "value": 1
+            },
+            {
+              "name": "Food Share Ventura County",
+              "value": 1
+            },
+            {
+              "name": "Community Roots Garden",
+              "value": 1
+            },
+            {
+              "name": "Camarillo Community Gardens",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "name": "San Luis Obispo County",
+          "children": [
+            {
+              "name": "SLO Food Bank",
+              "value": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Disability",
+      "children": [
+        {
+          "name": "Central Coast",
+          "children": [
+            {
+              "name": "State Council on Developmental Disabilities - Regional Office IX",
+              "value": 1
+            },
+            {
+              "name": "Independent Living Resource Center / Access Central Coast",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "name": "California",
+          "children": [
+            {
+              "name": "Disability Rights California",
               "value": 1
             }
           ]

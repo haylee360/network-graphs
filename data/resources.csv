@@ -1,15 +1,15 @@
 Category,Location,Resource
-Housing,San Luis Obispo County,Community Action Partnership of San Luis Obispo County (CAPSLO)
-Housing,San Luis Obispo County,Housing Authority of the City of San Luis Obispo (HASLO)
-Housing,San Luis Obispo County,Transitions - Mental Health Association (TMHA)
-Housing,San Luis Obispo County,5Cities Homeless Coalition (5CHC)
-Housing,"San Luis Obispo County, Ventura County",People’s Self-Help Housing Corporation (PSHH)
-Housing,Ventura County,Area Housing Authority of Ventura (AHACV)
+Housing,San Luis Obispo County,Community Action Partnership of San Luis Obispo County
+Housing,San Luis Obispo County,Housing Authority of the City of San Luis Obispo
+Housing,San Luis Obispo County,Transitions - Mental Health Association
+Housing,San Luis Obispo County,5Cities Homeless Coalition
+Housing,"San Luis Obispo County, Ventura County",People’s Self-Help Housing Corporation
+Housing,Ventura County,Area Housing Authority of Ventura
 Housing,Ventura County,Cabrillo Economic Development Corporation
 Housing,Ventura County,Many Mansions
-Housing,Ventura County,Housing Authority of the City of San Buenaventura (HACSB)
-Housing,Santa Barbara County,Habitat for Humanity of Southern Santa Barbara County (HFHSSBC)
-Housing,Santa Barbara County,Santa Barbara Community Housing Corporation (SBCHC)
+Housing,Ventura County,Housing Authority of the City of San Buenaventura
+Housing,Santa Barbara County,Habitat for Humanity of Southern Santa Barbara County
+Housing,Santa Barbara County,Santa Barbara Community Housing Corporation
 Housing,Santa Barbara County,Housing Trust Fund of Santa Barbara County
 Housing,Santa Barbara County,2nd Story Associates
 Housing,Santa Barbara County,New Beginnings Safe Parking Shelter and Rapid Rehousing Program
@@ -19,14 +19,56 @@ Regional Advocacy & Organizing,Santa Barbara County,The Fund for SB
 Regional Advocacy & Organizing,Santa Barbara County,Mixteco Indigenous Community Organizing Project
 Regional Advocacy & Organizing,Central Coast,Lideres Campesinas
 Regional Advocacy & Organizing,Ventura County,Buen Vecino
-Regional Advocacy & Organizing,Central Coast,REACH (Regional Economic Action Coalition)
+Regional Advocacy & Organizing,Central Coast,REACH: Regional Economic Action Coalition
 Regional Advocacy & Organizing,California,CalNonprofits
 Regional Advocacy & Organizing,California,Alliance for Justice
 Regional Advocacy & Organizing,California,Public Advocates
-Regional Advocacy & Organizing,California,Public Policy Institute of California (PPIC)
-Youth and Family,Santa Barbara County,Santa Barbara Chapter of the California Association of Marriage and Family Therapists (SBCAMFT)
+Regional Advocacy & Organizing,California,Public Policy Institute of California
+Youth and Family,Santa Barbara County,Santa Barbara Chapter of the California Association of Marriage and Family Therapists
 Youth and Family,Central Coast,Access Central Coast: Youth Transition Program
-Youth and Family,Santa Barbara County,Attitude Harmony Achievement (AHA!)
+Youth and Family,Santa Barbara County,Attitude Harmony Achievement
 Youth and Family,Santa Barbara County,Alpha Lifespan Support Services
 Youth and Family,Central Coast,Tri-Counties Regional Center
 Youth and Family,Santa Barbara County,Family Service Agency
+Legal Support,Central Coast,805 Undocufund
+Legal Support,Ventura County,VC Defensa
+Legal Support,National,ACLU Immigrants' Rights
+Legal Support,California,California Collaborative for Immigrant Justice
+Legal Support,National,Immigrant Legal Resources Know Your Rights Cards
+Legal Support,California,National Immigration Law Center
+Legal Support,Santa Barbara County,Legal Aid Santa Barbara County
+Legal Support,Central Coast,California Rural Legal Assistance
+Education,Santa Barbara County,Santa Barbara County Education Office
+Education,Santa Barbara County,Help Me Grow Santa Barbara County
+Education,California,CalKIDS
+Education,Santa Barbara County,Children's Resource & Referral of Santa Barbara County
+Education,Santa Barbara County,Santa Barbara County 211
+Environment,California,CalEnviroScreen
+Environment,California,EJScreen
+Environment,National,Climate and Economic Justice Screening Tool
+Environment,Central Coast,Central Coast Labor Impact Explorer
+Environment,Central Coast,Regional Wildfire Mitigation Program
+Environment,Santa Barbara County,City of Santa Barbara Adaptation and Resilience Program
+Environment,Central Coast,Central Coast Community Energy
+Environment,California,CaliforniaLFire
+Environment,California,California Department of Water Resources
+Environment,California,Environmental Defense Center
+Environment,Santa Barbara County,Community Environmental Council
+Environment,California,California Environmental Justice Coalition
+Environment,Central Coast,Climate First: Replacing Oil and Gas
+Environment,Santa Barbara County,Wishtoyo Chumash Foundation
+Environment,California,California League of Conservation Voters
+Environment,Santa Barbara County,Santa Barbara Channelkeeper
+Environment,Central Coast,Los Padres ForestWatch
+Environment,Santa Barbara County,Land Trust for Santa Barbara County
+Nutrition,Santa Barbara County,Santa Barbara County Food Action Network
+Nutrition,Santa Barbara County,Isla Vista Ethnobotany Project
+Nutrition,Santa Barbara County,Somos Semillas Food Sovereignty Project
+Nutrition,Ventura County,Saticoy Food Hub
+Nutrition,Ventura County,Food Share Ventura County
+Nutrition,San Luis Obispo County,SLO Food Bank
+Nutrition,Ventura County,Community Roots Garden
+Nutrition,Ventura County,Camarillo Community Gardens
+Disability,Central Coast,State Council on Developmental Disabilities - Regional Office IX
+Disability,California,Disability Rights California
+Disability,Central Coast,Independent Living Resource Center / Access Central Coast
