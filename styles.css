@@ -1,0 +1,502 @@
+/* hover color for links */
+a:hover {
+color: #28377a;
+text-decoration: underline;
+}
+
+/* Fix hover for the buttons */
+.wp-block-button__link {
+transition: 0.3s;
+}
+
+.wp-block-button__link:hover {
+text-decoration: none !important;
+filter: brightness(90%);
+}
+
+/* Add padding to the right of the large county names*/
+.wp-block-cover .wp-block-cover__inner-container {
+padding-left: 20px;
+}
+
+.entry-content .wp-block-uagb-container .wp-block-uagb-inline-notice .uagb-notice-text p {
+max-width: 100% !important;
+padding: 0 auto;
+}
+
+.entry-content .wp-block-uagb-container .wp-block-uagb-container .wp-block-uagb-info-box .uagb-ifb-content .uagb-ifb-desc {
+max-width: 100% !important;
+padding: 0 auto;
+}
+
+.uagb-ifb-desc {
+max-width: 100% !important;
+padding: 0 auto;
+}
+
+.wp-block-file {
+margin-top: 0px !important;
+}
+
+/* Fixing alignment for spectra headings */
+.wp-block-uagb-advanced-heading {
+padding-left: 0px !important;
+padding-right: 0px !important;
+margin-left: 0px !important;
+margin-right: 0px !important;
+max-width: none !important;
+}
+
+/* Adjust link styling for tabs */
+.uagb-tab a, .uagb-tab a:hover {
+text-decoration: none !important;
+}
+
+/* Change font awesome icon size */
+.fa-solid {
+    display: flex !important;
+    font-size: 70px !important;
+    line-height: 160px !important;
+    height: 160px !important;
+    text-align: center !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background-color: #D05F28 !important;
+    color: #fff !important; /* make icons white */
+}
+
+/* Removes padding for nested containers */
+.wp-block-uagb-container .wp-block-uagb-container {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    transition: 0.3s;
+    /* box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.18), 0 6px 20px 0 rgba(0, 0, 0, 0.17); */
+}
+
+/* Removes padding for nested containers */
+.wp-block-uagb-container .ei-tile {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    transition: 0.3s;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.18), 0 6px 20px 0 rgba(0, 0, 0, 0.17);
+}
+
+/* Change font awesome icon size */
+.ei-tile-image {
+    display: flex !important;
+    font-size: 70px !important;
+    line-height: 160px !important;
+    height: 160px !important;
+    text-align: center !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background-color: #D05F28 !important;
+    color: #fff !important; /* make icons white */
+}
+
+/* remove padding on all containers and fill content to full width */
+.wp-block-uagb-container {
+    justify-content: space-around !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    row-gap: 32px !important;
+}
+
+:where(.wp-block-columns) {
+    margin-bottom: 0em !important;
+}
+
+/* Add some margin to the text in the boxes */
+.wp-block-columns .wp-block-column p {
+    margin-left: 10px !important;
+}
+
+/* Make entry content text 80% width */
+.entry-content p {
+    max-width: 80% !important; 
+    margin-left: auto !important; 
+    margin-right: auto !important; 
+}
+
+/* Header Styling to match paragraphs*/
+h3.wp-block-heading.h3-vanilla {
+    max-width: 80% !important; 
+    margin-left: auto !important; 
+    margin-right: auto !important; 
+}
+
+
+/* Add padding to the right of the large county names*/
+.wp-block-cover .wp-block-cover__inner-container h3 {
+    padding-left: 20px;
+}
+
+/* change background color to light blue indicator boxes */
+.wp-block-column .wp-block-column{
+    background-color: #CBE8F6 !important;
+}
+
+/* Change image dimensions for the logos of each indicator */
+.wp-block-uagb-image .ei-tile-image {
+    background-color: #D05F28 !important;
+    width: 108px !important;
+    height: 160px !important;
+    justify-content: center !important;
+}
+
+/* removing gap between container and columns */
+.wp-block-uagb-container .wp-block-columns .is-layout-flex {
+    gap: 0px !important;
+}
+
+/* Change container brightness on hover */
+.wp-block-uagb-container .ei-tile:hover {
+    filter: brightness(90%);
+}
+
+/* remove padding on all containers and fill content to full width */
+.wp-block-uagb-container {
+    justify-content: space-around !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    row-gap: 32px !important;
+}
+
+:where(.wp-block-columns) {
+    margin-bottom: 0em !important;
+}
+
+/* Stick indicator text to the bottom of the container */
+.wp-block-uagb-container .wp-block-columns .wp-block-column p:last-child {
+    position: absolute;
+    bottom: 0;
+    padding-bottom: 15px !important;
+}
+
+/* Add some margin to the text in the boxes */
+.wp-block-columns .wp-block-column p {
+    margin-left: 10px !important;
+}
+
+/* Fix button hover */
+.wp-block-button__link:hover {
+    background-color: #074771 !important;
+    transition: 0.3s;
+}
+
+/* adjusting icon cards for small screen sizes */
+.wp-block-columns .wp-block-column:not(:last-child) {
+    margin-bottom: 0px !important;
+}
+
+/* RESEARCH HOME PAGE */
+<style>
+
+/* Make entry content text 80% width */
+.entry-content p {
+max-width: 80% !important; 
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+} 
+/* Adjust widths for small screen size */
+@media (max-width: 550px) {
+    .entry-content p {
+        max-width: 90% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+}
+
+/* Header Styling to match paragraphs*/
+.wp-block-heading, .uagb-heading-text{
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+
+/* Footer image styling */
+.wp-block-image {
+    padding-left: 0px;
+    padding-right: 50px;
+}
+
+/* Remove 80% width from footer text. This will affect all text in columns */
+.wp-block-column p {
+    // text-align: left !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    max-width: none !important;
+}
+
+/* removing gap between container and columns? not super sure what this is */
+.wp-block-uagb-container .wp-block-columns .is-layout-flex {
+    gap: 0px !important;
+}
+
+/* Removes padding for nested containers */
+.my-box-class {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    transition: 0.3s;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.18), 0 6px 20px 0 rgba(0, 0, 0, 0.17) !important;
+}
+
+/* Change container brightness on hover */
+.my-box-class:hover {
+    filter: brightness(90%);
+}
+
+/* remove padding on all containers and fill content to full width */
+.wp-block-uagb-container {
+    justify-content: space-around !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    row-gap: 32px !important;
+}
+
+.reports-container {
+    margin-top: 45px !important;
+}
+
+:where(.wp-block-columns) {
+    margin-bottom: 0em !important;
+}
+
+/* Shadow and transition for button */
+.uagb-button__wrapper .uagb-buttons-repeater {
+    transition: 0.3s;
+}
+
+/* CSS FOR EI PAGES */
+
+<style>
+
+/* GENERAL STYLING  */
+
+/* hover color for links */
+a:hover {
+    color: #28377a;
+    text-decoration: underline;
+}
+
+/* Fix hover for the buttons */
+.wp-block-button__link {
+    transition: 0.3s;
+}
+
+.wp-block-button__link:hover {
+    text-decoration: none !important;
+    filter: brightness(90%);
+}
+
+/* Make entry content text and H3 80% width */
+.entry-content p, h3 {
+max-width: 80% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+} 
+
+@media (max-width: 750px) {
+.entry-content p, h3 {
+    max-width: 90% !important; 
+    margin-left: auto !important; 
+    margin-right: auto !important; 
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+  }
+}
+
+/* DETAILS STYLING */
+
+/* Styling for details dropdown */
+details {
+    max-width: 80%;
+    margin: 0 auto;
+    padding: 0px;
+    border: 1px solid #ccc;
+    border-radius: 5px; 
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 750px) {
+.entry-content details {
+        max-width: 90%;
+    }
+}
+
+/* Text Styling for Details Summary */
+details summary {
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+/* styling for dropdown text */
+details p {
+    margin-top: 0px;
+    line-height: 1.6;
+}
+
+/* Hover effect for the summary element */
+summary:hover {
+    background-color: #e3e2e1;
+}
+
+/* Add padding to the right of the lists in the dropdown summary */
+.wp-block-list {
+    padding-right: 30px;
+}
+
+.wp-block-details {
+    margin-top: 40px;
+    margin-bottom: 60px;
+}
+
+/* Remove extra margin at the top of the dropdown lists */ 
+.wp-block-details ul{
+    margin-top: 0px !important;
+}
+
+</style>
+
+<style>
+/* Styling for details dropdown */
+details {
+    max-width: 80%; /* Set the width to 80% of the container */
+    margin: 0 auto; /* Center the details element */
+    padding: 0px; /* Add some padding for better appearance */
+    border: 1px solid #ccc; /* Optional: Add a border to make it visually distinct */
+    border-radius: 5px; /* Optional: Round the corners */
+    background-color: #f9f9f9; /* Optional: Light background color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Subtle shadow effect */
+}
+
+/* Text Styling for Details Summary */
+details summary {
+    font-weight: bold; /* Make the summary text bold */
+    cursor: pointer; /* Indicate it's clickable */
+    padding: 10px; /* Optional: Padding for better spacing */
+    border-radius: 5px; /* Rounded corners */
+    transition: 0.3s;
+}
+
+/* styling for dropdown text */
+details p {
+    margin-top: 0px; /* Add spacing above paragraphs inside details */
+    line-height: 1.6; /* Improve readability with line spacing */
+}
+
+/* Hover effect for the summary element */
+summary:hover {
+    background-color: #e3e2e1;
+}
+
+/* hover color for links */
+a:hover {
+color: #28377a;
+text-decoration: underline;
+}
+
+/* Fix hover for the buttons */
+.wp-block-button__link {
+transition: 0.3s;
+}
+
+.wp-block-button__link:hover {
+text-decoration: none !important;
+filter: brightness(90%);
+}
+
+.wp-block-details {
+margin-top: 40px;
+margin-bottom: 60px;
+}
+
+/* styling for dropdown text */
+details ul li {
+    line-height: 1.5 !important;
+}
+
+/* Remove extra margin at the top of the dropdown lists */ 
+.wp-block-details ul{
+margin-top: 0px !important;
+}
+
+
+/* Make entry content text 80% width */
+.entry-content p {
+max-width: 80% !important; /* Ensure the width is 80% */
+    margin-left: auto !important; /* Center the text */
+    margin-right: auto !important; /* Center the text */
+    padding-left: 20px !important; /* Optional padding */
+    padding-right: 20px !important; /* Optional padding */
+} 
+
+/* Header Styling to match paragraphs*/
+h3 {
+    max-width: 80% !important; /* Ensure the width is 80% */
+    margin-left: auto !important; /* Center the text */
+    margin-right: auto !important; /* Center the text */
+    padding-left: 20px !important; /* Optional padding */
+    padding-right: 20px !important; /* Optional padding */
+}
+
+/* Add padding to the right of the large county names*/
+.wp-block-cover .wp-block-cover__inner-container {
+padding-left: 20px;
+}
+
+/* Add padding to the right of the lists in the dropdown summary */
+.wp-block-list {
+padding-right: 30px;
+}
+
+/* Footer image styling */
+.wp-block-image {
+padding-left: 0px;
+padding-right: 50px;
+}
+
+/* Remove 80% width from footer text. This will affect all text in columns */
+.wp-block-column p {
+padding-left: 0px !important;
+padding-right: 0px !important;
+margin-left: 0px !important;
+margin-right: 0px !important;
+max-width: none !important;
+}
+
+.wp-block-uagb-container {
+margin-bottom: 0px;
+margin-left: auto;
+margin-right: auto;
+}
+
+/* MAPS AND DOWNLOAD BUTTONS */
+
+.wp-block-uagb-image {
+margin-bottom: 10px !important;
+}
+
+.wp-block-file {
+margin-top: 0px !important;
+}
+</style>

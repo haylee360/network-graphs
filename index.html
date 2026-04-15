@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resource Map</title>
+
+  <!--
+  ============================================================
+  FONTS
+  Raleway: body text and circle labels
+  Cabin: panel headings
+  These match the original Observable notebook fonts.
+  ============================================================
+  -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&family=Cabin:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!--
+  ============================================================
+  LIBRARIES
+  D3 v7: the charting library. Loaded from cdnjs (free, reliable CDN).
+  PapaParse: parses CSV text into JS objects. Handles edge cases like
+  commas inside quoted fields, which a manual split() would break on.
+  ============================================================
+  -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+  <style>
+    /*
+    ============================================================
+    RESET & BASE
+    box-sizing: border-box means padding is included in width
+    calculations — prevents layout surprises across browsers.
+    overflow: hidden on body prevents a page-level scrollbar;
+    each scrollable region manages its own overflow.
+    ============================================================
+    */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: 'Raleway', sans-serif;
+      background: #fff;
+      overflow: hidden;
+      font-size: clamp(12px, 1.2vw, 16px);
+    }
+
+    /*
+    ============================================================
+    LOADING SCREEN
+    Shown while the CSV is being fetched and parsed.
+    Hidden once the chart is ready.
+    ============================================================
+    */
+    #loading {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      background: #fff;
+      z-index: 9999;
+      font-family: 'Raleway', sans-serif;
+      color: #666;
+      font-size: 0.9rem;
+      transition: opacity 0.4s ease;
+    }
+
+    #loading.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid #e5e5e5;
+      border-top-color: #888;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    #error-message {
+      display: none;
+      position: fixed;
+      inset: 0;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 0.75rem;
+      background: #fff;
+      z-index: 9999;
+      font-family: 'Raleway', sans-serif;
+      color: #c0392b;
+      font-size: 0.9rem;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    #error-message.visible {
+      display: flex;
+    }
+
+    /*
+    ============================================================
+    APP SHELL
+    #app is the full-viewport root container.
+    On desktop: horizontal flex row (chart | side panel).
+    On mobile: chart only — the drawer overlays it.
+    ============================================================
+    */
+    #app {
+      width: 100%;
+      height: 100%;
+      position: relative;  /* children can now position against this */
+    }
+
+    /*
+    ============================================================
+    CHART CONTAINER
+    flex: 1 means it takes all remaining space after the panel.
+    min-width: 0 is required on flex children to prevent overflow.
+    ============================================================
+    */
+    #chart-container {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    #chart-container svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    /*
+    ============================================================
+    DESKTOP SIDE PANEL
+    Animates open by transitioning width from 0 to 300px.
+    The inner div stays a fixed 300px wide so content doesn't
+    squish during the transition — only the outer clip changes.
+    ============================================================
+    */
+    #side-panel {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 300px;
+      height: 100%;
+      overflow: hidden;
+      background: #fff;
+      border-left: 1px solid #e5e5e5;
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 10;
+    }
+
+    #side-panel.open {
+      transform: translateX(0);
+      box-shadow: -4px 0 16px rgba(0, 0, 0, 0.08);
+    }
+
+    #side-panel-inner {
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      padding: 1.25rem;
+    }
+
+    /*
+    ============================================================
+    MOBILE BOTTOM DRAWER
+    Fixed to bottom of viewport. Starts off-screen (translateY 100%)
+    and animates up when .open is added.
+    The ::before pseudo-element creates the drag-handle pill —
+    a visual cue that the drawer is dismissible.
+    ============================================================
+    */
+    #drawer {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 58vh;
+      background: #fff;
+      border-radius: 16px 16px 0 0;
+      z-index: 1000;
+      overflow-y: auto;
+      transform: translateY(100%);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #drawer.open {
+      transform: translateY(0);
+      box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    #drawer::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 4px;
+      background: #ddd;
+      border-radius: 2px;
+      margin: 12px auto 0;
+    }
+
+    #drawer-inner {
+      padding: 0.75rem 1.25rem 2rem;
+    }
+
+    /*
+    ============================================================
+    BACKDROP
+    Dims the chart behind the mobile drawer.
+    Tapping it closes the drawer.
+    ============================================================
+    */
+    #backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    #backdrop.visible {
+      opacity: 1;
+    }
+
+    /*
+    ============================================================
+    PANEL CONTENT
+    Shared styles for both the desktop panel and mobile drawer.
+    Both receive identical HTML from renderPanel().
+    ============================================================
+    */
+    .panel-content h3 {
+      font-family: 'Cabin', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+      line-height: 1.3;
+    }
+
+    .panel-content .meta {
+      font-size: 0.875rem;
+      color: #444;
+      line-height: 1.6;
+    }
+
+    .panel-content .meta p {
+      margin: 0.35rem 0;
+    }
+
+    .panel-content a {
+      color: #0066cc;
+      word-break: break-all;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .panel-close {
+      background: none;
+      border: none;
+      font-size: 1.125rem;
+      cursor: pointer;
+      color: #888;
+      padding: 0 0.25rem;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .panel-close:hover { color: #000; }
+
+    /*
+    ============================================================
+    BREADCRUMB
+    Shows current zoom path (e.g. "All → Housing → Downtown").
+    Hidden at root level, visible when zoomed in.
+    pointer-events: none keeps it from blocking circle clicks.
+    ============================================================
+    */
+    #breadcrumb {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      font-size: 0.78rem;
+      color: #555;
+      background: rgba(255, 255, 255, 0.88);
+      padding: 4px 12px;
+      border-radius: 20px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      font-family: 'Raleway', sans-serif;
+      max-width: calc(100% - 24px);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    #breadcrumb.visible {
+      opacity: 1;
+    }
+
+    /*
+    ============================================================
+    ZOOM HINT
+    One-time instructional tip shown on first load.
+    CSS animation fades it in then out automatically —
+    no JS timer needed.
+    ============================================================
+    */
+    #zoom-hint {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.78rem;
+      color: #666;
+      background: rgba(255, 255, 255, 0.92);
+      padding: 6px 16px;
+      border-radius: 20px;
+      pointer-events: none;
+      white-space: nowrap;
+      font-family: 'Raleway', sans-serif;
+      animation: fadeHint 4s ease forwards;
+    }
+
+    @keyframes fadeHint {
+      0%   { opacity: 0; }
+      12%  { opacity: 1; }
+      75%  { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    /*
+    ============================================================
+    RESPONSIVE BREAKPOINT
+    Below 700px: hide desktop panel, enable mobile drawer.
+    This px value must match the isMobile check in JS below.
+    ============================================================
+    */
+    @media (max-width: 700px) {
+      #side-panel { display: none; }
+      #drawer { display: block; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Loading screen (visible until data is ready) -->
+  <div id="loading">
+    <div class="spinner"></div>
+    <span>Loading resources…</span>
+  </div>
+
+  <!-- Error screen (shown if fetch or parse fails) -->
+  <div id="error-message">
+    <strong>Could not load data.</strong>
+    <span id="error-detail"></span>
+    <span style="color:#666; font-size:0.82rem;">
+      Check that your Google Sheet is published and the URL below is correct.
+    </span>
+  </div>
+
+  <!-- Main app (hidden until data loads) -->
+  <div id="app" style="visibility: hidden;">
+
+    <div id="chart-container">
+      <div id="breadcrumb"></div>
+      <!-- D3 appends the SVG here -->
+    </div>
+
+    <!-- Desktop side panel -->
+    <div id="side-panel">
+      <div id="side-panel-inner">
+        <div class="panel-content" id="panel-content-desktop"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Mobile drawer (outside #app — fixed positioning is relative to viewport) -->
+  <div id="backdrop"></div>
+  <div id="drawer">
+    <div id="drawer-inner">
+      <div class="panel-content" id="panel-content-mobile"></div>
+    </div>
+  </div>
+
+  <!-- One-time zoom hint -->
+  <div id="zoom-hint" style="display:none;">
+    Tap a category to explore &nbsp;·&nbsp; Tap background to go back
+  </div>
+
+  <script>
+  'use strict';
+
+  // ============================================================
+  // DATA SOURCE
+  //
+  // HOW TO UPDATE THIS:
+  // 1. Open your Google Sheet
+  // 2. File → Share → Publish to web
+  // 3. In the dialog, choose the correct sheet tab and "Comma-separated
+  //    values (.csv)" format, then click Publish
+  // 4. Copy the URL and paste it below, replacing the placeholder.
+  //
+  // The URL looks like:
+  // https://docs.google.com/spreadsheets/d/YOUR_ID/pub?gid=0&single=true&output=csv
+  //
+  // IMPORTANT: The sheet must be published (not just shared). A sharing
+  // link won't work here — it requires a login. Publishing creates a
+  // public CSV endpoint that this page can fetch directly.
+  // ============================================================
+  const CSV_URL = './circle-chart-resources.csv'
+
+  // ============================================================
+  // EXPECTED CSV COLUMNS
+  //
+  // Your sheet must have these exact column headers (case-sensitive).
+  // This matches the column names in your existing Python script.
+  // ============================================================
+  const COL = {
+    category:     'Category',
+    location:     'Location',
+    resource:     'Resource',
+    description:  'Description',
+    link:         'Link',
+    resourceLink: 'Resource Page Link',
+  };
+
+  // ============================================================
+  // CATEGORY COLORS
+  //
+  // Maps category names to [lightFill, midFill, darkFill].
+  // Depth 1 (category circles) use darkFill.
+  // Depth 2 (location circles) use midFill.
+  // Depth 3 (resource circles) use lightFill.
+  //
+  // TO ADD A NEW CATEGORY: add a new line here. The chart will
+  // pick it up automatically — no other code needs to change.
+  // If a category is missing from this map, it gets #ccc.
+  // ============================================================
+  const CATEGORY_COLORS = {
+    'Environment':         ['#f4fff2', '#d6f2d3', '#a1e3a7'],
+    'Housing':             ['#FFF8E3', '#fade96', '#ffd25e'],
+    'Immigration':         ['#f0faff', '#cce7f5', '#84d4fc'],
+    'Regional Organizing': ['#e4f2fc', '#73bdf1', '#34a2f0'],
+    'Youth':               ['#FCEBE2', '#f5a176', '#e6743b'],
+  };
+
+  // ============================================================
+  // CSV → HIERARCHY
+  //
+  // Converts a flat array of row objects (from PapaParse) into
+  // the nested structure D3's hierarchy layout expects:
+  //
+  //   root
+  //   └── Category
+  //       └── Location
+  //           └── Resource (leaf — has description, link, etc.)
+  //
+  // This is the browser equivalent of your Python script.
+  // The logic is identical — find-or-create category, find-or-
+  // create location, then append the resource leaf.
+  // ============================================================
+  function csvToHierarchy(rows) {
+    const root = { name: 'root', children: [] };
+
+    for (const row of rows) {
+      const category     = (row[COL.category]     || '').trim();
+      const location     = (row[COL.location]      || '').trim();
+      const resource     = (row[COL.resource]      || '').trim();
+      const description  = (row[COL.description]   || '').trim();
+      const link         = (row[COL.link]           || '').trim();
+      const resourceLink = (row[COL.resourceLink]   || '').trim();
+
+      // Skip rows missing required fields
+      if (!category || !resource) continue;
+
+      // Find or create category node
+      let catNode = root.children.find(c => c.name === category);
+      if (!catNode) {
+        catNode = { name: category, children: [] };
+        root.children.push(catNode);
+      }
+
+      // Find or create location node
+      let locNode = catNode.children.find(l => l.name === location);
+      if (!locNode) {
+        locNode = { name: location, children: [] };
+        catNode.children.push(locNode);
+      }
+
+      // Append resource leaf
+      locNode.children.push({
+        name: resource,
+        description,
+        link,
+        category,
+        location,
+        resourceLink,
+        value: 1,   // all leaves equal size; change this to weight by a column
+      });
+    }
+
+    return root;
+  }
+
+  // ============================================================
+  // STATE
+  //
+  // selectedNode: the leaf data object currently shown in the
+  // panel, or null. All UI changes flow through selectNode().
+  // ============================================================
+  let selectedNode = null;
+
+  // ============================================================
+  // HELPERS
+  // ============================================================
+
+  // Returns the top-level category name for any node in the tree.
+  function getCategoryName(d) {
+    let current = d;
+    while (current.depth > 1) current = current.parent;
+    return current.data.name;
+  }
+
+  // Returns the fill color for a given node based on its depth.
+  function getColor(d, root) {
+    if (d === root) return '#ffffff';
+    const colors = CATEGORY_COLORS[getCategoryName(d)];
+    if (!colors) return '#ccc';
+    if (d.depth === 1) return colors[2]; // category: darkest
+    if (d.depth === 2) return colors[1]; // location: mid
+    return colors[0];                    // resource: lightest
+  }
+
+  // Wraps SVG text into multiple <tspan> lines.
+  // SVG doesn't support text wrapping natively, so we measure each
+  // word and break when the line exceeds maxWidth.
+  function wrapText(sel, text, maxWidth, lineHeight = 1.2) {
+    sel.selectAll('tspan').remove();
+
+    if (!isFinite(maxWidth) || maxWidth < 14) {
+      sel.append('tspan').attr('x', 0).attr('dy', '0.35em').text(text);
+      return;
+    }
+
+    const words = text.split(/\s+/);
+    const lines = [];
+    let line = [];
+    const temp = sel.append('tspan').attr('x', 0);
+
+    for (const w of words) {
+      line.push(w);
+      temp.text(line.join(' '));
+      if (temp.node().getComputedTextLength() > maxWidth) {
+        line.pop();
+        if (line.length) lines.push(line.join(' '));
+        line = [w];
+        temp.text(w);
+      }
+    }
+    if (line.length) lines.push(line.join(' '));
+    temp.remove();
+
+    const startY = -((lines.length - 1) / 2) * lineHeight;
+    lines.forEach((l, i) => {
+      sel.append('tspan')
+        .attr('x', 0)
+        .attr('y', `${startY + lineHeight * i}em`)
+        .attr('dy', '0.35em')
+        .text(l);
+    });
+  }
+
+  // ============================================================
+  // PANEL RENDERING
+  //
+  // Writes identical HTML into both the desktop panel and mobile
+  // drawer. One function for both means a content change only
+  // needs to happen in one place.
+  // ============================================================
+  function renderPanel(node) {
+    const html = node ? `
+      <div class="panel-header">
+        <h3>${node.name}</h3>
+        <button class="panel-close" aria-label="Close panel">&#x2715;</button>
+      </div>
+      <div class="meta">
+        ${node.location     ? `<p><strong>Location:</strong> ${node.location}</p>` : ''}
+        ${node.category     ? `<p><strong>Category:</strong> ${node.category}</p>` : ''}
+        ${node.description  ? `<p>${node.description}</p>` : ''}
+        ${node.link         ? `<p><a href="${node.link}" target="_blank" rel="noopener noreferrer">${node.link}</a></p>` : ''}
+        ${node.resourceLink ? `<p style="font-size:0.82rem; color:#666; margin-top:0.5rem;">
+            More resources: <a href="${node.resourceLink}" target="_blank" rel="noopener noreferrer">${node.category}</a>
+          </p>` : ''}
+      </div>
+    ` : '';
+
+    document.getElementById('panel-content-desktop').innerHTML = html;
+    document.getElementById('panel-content-mobile').innerHTML  = html;
+
+    // Re-attach close handlers after innerHTML replaces the DOM
+    document.querySelectorAll('.panel-close').forEach(btn => {
+      btn.addEventListener('click', () => selectNode(null));
+    });
+  }
+
+  // ============================================================
+  // selectNode(d)
+  //
+  // The single function that drives all panel UI changes.
+  // Pass a data object → open panel. Pass null → close panel.
+  //
+  // Detects mobile vs desktop by window width and routes to the
+  // appropriate UI component. This check matches the CSS breakpoint
+  // at 700px — if you change one, change both.
+  // ============================================================
+  function selectNode(d) {
+    selectedNode = d;
+    renderPanel(d);
+
+    const isMobile  = window.innerWidth <= 700;
+    const sidePanel = document.getElementById('side-panel');
+    const drawer    = document.getElementById('drawer');
+    const backdrop  = document.getElementById('backdrop');
+
+    if (d) {
+      if (isMobile) {
+        // requestAnimationFrame ensures the browser has painted the element
+        // as visible before we trigger the CSS transition. Without this,
+        // the transition is skipped because the element wasn't in the
+        // render tree when the class was added.
+        drawer.style.display = 'block';
+        backdrop.style.display = 'block';
+        requestAnimationFrame(() => {
+          drawer.classList.add('open');
+          backdrop.classList.add('visible');
+        });
+      } else {
+        sidePanel.classList.add('open');
+      }
+    } else {
+      sidePanel.classList.remove('open');
+      drawer.classList.remove('open');
+      backdrop.classList.remove('visible');
+
+      // After the slide-down transition completes, hide the drawer from
+      // the accessibility tree so it can't be tabbed to while closed.
+      drawer.addEventListener('transitionend', () => {
+        if (!drawer.classList.contains('open')) {
+          drawer.style.display = 'none';
+          backdrop.style.display = 'none';
+        }
+      }, { once: true });
+    }
+  }
+
+  // Tapping the backdrop closes the drawer
+  document.getElementById('backdrop').addEventListener('click', () => selectNode(null));
+
+  // ============================================================
+  // buildChart(container, data)
+  //
+  // Creates the D3 zoomable bubble chart inside the given container
+  // element, using the provided hierarchy data.
+  //
+  // Called once on initial load, and again on window resize
+  // (via ResizeObserver). On resize it tears down and rebuilds —
+  // simpler and more reliable than trying to update every element.
+  // ============================================================
+  function buildChart(container, hierarchyData) {
+    // Remove any previous SVG
+    d3.select(container).select('svg').remove();
+
+    const width  = container.clientWidth;
+    const height = container.clientHeight;
+
+    // d3.hierarchy() converts plain JS objects into D3 node objects
+    // with .parent, .children, .depth, etc. properties.
+    // .sum() sets the value used to size each circle.
+    // .sort() puts larger circles first (better visual packing).
+    const root = d3.pack()
+      .size([width, height])
+      .padding(4)(
+        d3.hierarchy(hierarchyData)
+          .sum(d => d.value || 1)
+          .sort((a, b) => b.value - a.value)
+      );
+
+    // Create the SVG. viewBox matches the container dimensions so
+    // coordinate space is 1:1 with pixels.
+    const svg = d3.select(container).append('svg')
+      .attr('viewBox', `0 0 ${width} ${height}`)
+      .style('cursor', 'pointer');
+
+    // Inject the Google Font import into the SVG's own style scope.
+    // Without this, SVG text falls back to a system font.
+    svg.append('style').text(`
+      @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap');
+      text { font-family: 'Raleway', sans-serif; }
+    `);
+
+    // ---- Zoom state ----
+    // focus: the node currently "zoomed into" (starts at root)
+    // view: [x, y, diameter] — the visible window into the pack layout
+    let focus = root;
+    let view;
+
+    // ---- Circles ----
+    const node = svg.append('g')
+      .selectAll('circle')
+      .data(root.descendants())
+      .join('circle')
+        .attr('fill', d => getColor(d, root))
+        .on('mouseover', function(event, d) {
+          if (d !== root) {
+            d3.select(this).attr('stroke', '#333').attr('stroke-width', 1.5);
+          }
+        })
+        .on('mouseout', function(event, d) {
+          if (d !== root) d3.select(this).attr('stroke', null);
+        })
+        .on('click', function(event, d) {
+          event.stopPropagation();
+          if (d === focus) return;
+
+          if (d.parent === focus) {
+            // Direct child of current focus:
+            if (!d.children) {
+              // Leaf (resource) → open info panel
+              selectNode(d.data);
+            } else {
+              // Parent (category or location) → zoom in
+              zoom(event, d);
+              selectNode(null);
+            }
+          } else if (d === focus.parent) {
+            // Grandparent → zoom out one level
+            zoom(event, d);
+            selectNode(null);
+          }
+          // Clicking non-adjacent nodes does nothing —
+          // prevents disorienting jumps across the hierarchy.
+        });
+
+    // Clicking the SVG background zooms out one level
+    svg.on('click', (event) => {
+      // Only act if the click target is the SVG itself or the root circle,
+      // not a child circle that already handled the event.
+      if (event.target.tagName === 'circle') return;
+      if (focus.parent) {
+        zoom(null, focus.parent);
+        selectNode(null);
+      }
+    });
+
+    // TEMPORARY DEBUG — remove after fixing
+    document.addEventListener('click', (event) => {
+      console.log('Document click target:', event.target.tagName, event.target);
+      console.log('Current focus depth:', focus.depth);
+      console.log('selectedNode:', selectedNode?.name);
+    }, true); // true = capture phase, fires before anything else
+
+    // ---- Labels ----
+    const label = svg.append('g')
+      .attr('pointer-events', 'none')
+      .attr('text-anchor', 'middle')
+      .style('font-size', '0.75rem')
+      .style('font-weight', '500')
+      .selectAll('text')
+      .data(root.descendants())
+      .join('text')
+        .style('display', d => d.parent === root ? 'inline' : 'none')
+        .style('fill-opacity', d => d.parent === root ? 1 : 0)
+        .style('fill', '#000');
+
+    // ---- Breadcrumb ----
+    const breadcrumb = document.getElementById('breadcrumb');
+
+    function updateBreadcrumb(focusNode) {
+      if (focusNode === root) {
+        breadcrumb.textContent = '';
+        breadcrumb.classList.remove('visible');
+        return;
+      }
+      // Build path from root to current focus, skipping root itself
+      const path = [];
+      let current = focusNode;
+      while (current && current !== root) {
+        path.unshift(current.data.name);
+        current = current.parent;
+      }
+      breadcrumb.textContent = ['All', ...path].join(' → ');
+      breadcrumb.classList.add('visible');
+    }
+
+    // ---- Pointer events ----
+    // Only circles adjacent to focus are interactive. This prevents
+    // invisible circles (behind the zoom) from capturing clicks.
+    function updatePointerEvents() {
+      node.attr('pointer-events', d => {
+        if (d === root) return 'none';
+        if (d.parent === focus) return 'all';  // direct children
+        if (d === focus.parent) return 'all';   // parent (click to zoom out)
+        return 'none';
+      });
+    }
+
+    // ---- Label wrapping ----
+    function updateLabelWrapping(focusNode) {
+      const k = Math.min(width, height) / view[2];
+      label
+        .filter(l => l.parent === focusNode)
+        .each(function(l) {
+          wrapText(d3.select(this), l.data.name, l.r * k * 1.6);
+        });
+    }
+
+    // ---- zoomTo ----
+    // Applies position and scale transforms so [x, y, diameter]
+    // fills the SVG canvas. Called on every animation frame.
+    function zoomTo(v) {
+      const k = Math.min(width, height) / v[2];
+      view = v;
+      label.attr('transform', d =>
+        `translate(${(d.x - v[0]) * k + width / 2}, ${(d.y - v[1]) * k + height / 2})`
+      );
+      node
+        .attr('transform', d =>
+          `translate(${(d.x - v[0]) * k + width / 2}, ${(d.y - v[1]) * k + height / 2})`
+        )
+        .attr('r', d => d.r * k);
+    }
+
+    // ---- zoom ----
+    // Animates transition from current view to a new focus node.
+    // d3.interpolateZoom smoothly interpolates the pan+scale.
+    function zoom(event, d) {
+      const previousFocus = focus;
+      focus = d;
+      updateBreadcrumb(focus);
+
+      const transition = svg.transition()
+        .duration(event?.altKey ? 5000 : 750)
+        .tween('zoom', () => {
+          const i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2]);
+          return t => zoomTo(i(t));
+        });
+
+      // Fade out labels from the previous focus level
+      label.filter(l => l.parent === previousFocus)
+        .transition(transition)
+          .style('fill-opacity', 0)
+          .on('end', function(l) {
+            if (l.parent !== focus) d3.select(this).style('display', 'none');
+          });
+
+      // Fade in labels at the new focus level
+      label.filter(l => l.parent === focus)
+        .style('display', 'inline')
+        .style('fill-opacity', 0)
+        .transition(transition)
+          .style('fill-opacity', 1);
+
+      transition.on('end', () => {
+        updatePointerEvents();
+        updateLabelWrapping(focus);
+      });
+    }
+
+    // ---- Initial render ----
+    zoomTo([root.x, root.y, root.r * 2]);
+    updatePointerEvents();
+    updateLabelWrapping(root);
+  }
+
+  // ============================================================
+  // RESPONSIVE RESIZE
+  //
+  // ResizeObserver watches the chart container and rebuilds the
+  // chart whenever its size changes (e.g. window resize, or the
+  // WordPress page reflows after the side panel opens).
+  //
+  // Debounced 150ms so we're not rebuilding on every pixel of a
+  // drag-resize — only once the user stops resizing.
+  //
+  // On resize, any open panel is closed. This prevents a node
+  // selected on mobile (drawer open) from persisting when the user
+  // expands to desktop width (where the drawer doesn't exist).
+  // ============================================================
+  let resizeTimer;
+  let chartData = null; // held in module scope so resize can rebuild
+
+  const chartContainer = document.getElementById('chart-container');
+
+  const resizeObserver = new ResizeObserver(() => {
+    console.log('ResizeObserver fired'); // add this line
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      console.log('Rebuilding chart'); // and this line
+      selectNode(null);
+      if (chartData) buildChart(chartContainer, chartData);
+    }, 150);
+  });
+
+  resizeObserver.observe(chartContainer);
+
+  // ============================================================
+  // DATA LOADING
+  //
+  // Fetch the CSV from Google Sheets, parse it with PapaParse,
+  // convert it to a hierarchy, then build the chart.
+  //
+  // Error handling covers three common failure cases:
+  //   1. The URL placeholder was never replaced
+  //   2. The network request failed (CORS, offline, bad URL)
+  //   3. The CSV parsed but had no usable rows
+  // ============================================================
+  function showError(message) {
+    document.getElementById('loading').classList.add('hidden');
+    const err = document.getElementById('error-message');
+    document.getElementById('error-detail').textContent = message;
+    err.style.display = 'flex';
+    err.classList.add('visible');
+  }
+
+  async function loadData() {
+    // Guard: catch the common mistake of forgetting to set the URL
+    if (!CSV_URL || CSV_URL.includes('YOUR_GOOGLE_SHEETS')) {
+      showError('CSV_URL has not been set. Open index.html and replace the placeholder URL near the top of the <script> section.');
+      return;
+    }
+
+    try {
+      const response = await fetch(CSV_URL);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      const csvText = await response.text();
+
+      // PapaParse converts CSV text to an array of objects.
+      // header: true uses the first row as object keys.
+      // skipEmptyLines: true ignores blank rows in the sheet.
+      const parsed = Papa.parse(csvText, {
+        header: true,
+        skipEmptyLines: true,
+      });
+
+      if (!parsed.data || parsed.data.length === 0) {
+        throw new Error('The CSV file appears to be empty or has no data rows.');
+      }
+
+      // Validate that expected columns exist
+      const firstRow = parsed.data[0];
+      const missingCols = Object.values(COL).filter(col => !(col in firstRow));
+      if (missingCols.length > 0) {
+        throw new Error(`Missing columns in your sheet: ${missingCols.join(', ')}. Check that column headers match exactly.`);
+      }
+
+      chartData = csvToHierarchy(parsed.data);
+
+      // Reveal the app and build the chart
+      document.getElementById('loading').classList.add('hidden');
+      const app = document.getElementById('app');
+      app.style.visibility = 'visible';
+
+      // Show the zoom hint once chart is ready
+      const hint = document.getElementById('zoom-hint');
+      hint.style.display = 'block';
+
+      buildChart(chartContainer, chartData);
+
+    } catch (err) {
+      showError(err.message);
+    }
+  }
+
+  // Kick off data loading when the page is ready
+  loadData();
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+/* hover color for links */
+a:hover {
+    color: #28377a;
+    text-decoration: underline;
+}
+
+/* Fix hover for the buttons */
+.wp-block-button__link {
+    transition: 0.3s;
+}
+
+.wp-block-button__link:hover {
+    text-decoration: none !important;
+    filter: brightness(90%);
+}
+
+/* Make entry content text 80% width */
+.entry-content p {
+    max-width: 80% !important; 
+    margin-left: auto !important; 
+    margin-right: auto !important; 
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+} 
+
+/* Small screen sizze */
+@media (max-width: 500px) {
+    .entry-content p {
+        max-width: 90% !important; 
+        margin-left: auto !important; 
+        margin-right: auto !important; 
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+}
+
+
+/* Header Styling to match paragraphs*/
+h3, h4 {
+    max-width: 80% !important; 
+    margin-left: auto !important; 
+    margin-right: auto !important; 
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+
+/* Add padding to the right of the large county names*/
+.wp-block-cover .wp-block-cover__inner-container {
+    padding-left: 20px;
+}
+
+/* Add padding to the right of the lists in the dropdown summary */
+.wp-block-list {
+    padding-right: 30px;
+}
+
+/* Footer image styling */
+.wp-block-image {
+    padding-left: 0px;
+    padding-right: 50px;
+}
+
+/* Remove 80% width from footer text. This will affect all text in columns */
+.wp-block-column p {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    max-width: none !important;
+}
+
+.wp-block-uagb-container {
+    margin-bottom: 0px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.wp-block-uagb-image {
+    margin-bottom: 10px !important;
+}
+
+.wp-block-file {
+    margin-top: 0px !important;
+}
+
+/* Fixing alignment for spectra headings */
+.wp-block-uagb-advanced-heading {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    max-width: none !important;
+}
+
+/* Adjust link styling for tabs */
+.uagb-tab a {
+    text-decoration: none !important;
+}
+
+.uagb-tab a:hover {
+    text-decoration: none !important;
+}
+
+.wp-block-uagb-tabs {
+    max-width: 80% !important;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.wp-block-uagb-buttons {
+    max-width: 80% !important;
+}
+
+.uagb-buttons-repeater {
+    padding: 30px 45px !important;
+}
+
+/* .uagb-buttons__wrap {
+justify-content: space-evenly !important;
+} */
+
+.uagb-button__link {
+    white-space: nowrap !important;
+}
+
+
+
+
