@@ -1,0 +1,42 @@
+---
+title: "Untitled"
+format: html
+---
+
+```{r}
+library(tidyverse)
+library(here)
+library(janitor)
+
+places_raw <- read_csv(here("data", "PLACES__Local_Data_for_Better_Health,_County_Data,_2025_release_20260709.csv")) %>% 
+  clean_names()
+
+opp_insights_1 <- read_csv(here("data", "Table_1_county_trends_estimates.csv")) %>% 
+  clean_names()
+
+soc_cap <- read_csv(here("data", "social_capital_zip.csv")) %>% 
+  clean_names()
+```
+
+```{r}
+places_ca <- places_raw %>% 
+  filter(state_abbr == "CA") %>% view()
+
+places_tri_county <- places_ca %>% 
+  filter(location_name %in% c("Santa Barbara", "Ventura", "San Luis Obispo")) %>% view()
+
+unique(places_tri_county$year)
+
+table(places_tri_county$category)
+```
+
+```{r}
+opp_ca <- opp_insights_1 %>% 
+  filter(state_name == "California") %>% 
+  filter(county_name %in% c("Santa Barbara", "San Luis Obispo", "Ventura"))
+
+view(opp_ca)
+
+view(soc_cap)
+```
+
